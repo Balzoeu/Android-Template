@@ -1,0 +1,80 @@
+ext.app_config = [
+        packageName: 'eu.balzo.androidtemplate',
+        versionCode: 1,
+        versionName: '0.1-alpha-1'
+]
+
+ext.android_config = [
+        minSdk    : 21,
+        targetSdk : 27,
+        compileSdk: 27,
+        buildTools: '27.1.0'
+]
+
+ext.versions = [
+
+        /* ANDROID CORE */
+        androidPlugin            : '3.0.1',
+        kotlin                   : '1.2.21',
+
+        /* SUPPORT */
+        supportLibs              : '27.1.0',
+        constraintLayout         : '1.0.2',
+
+        /* TEST */
+        junit                    : '4.12',
+        espresso                 : '3.0.1',
+        runner                   : '1.0.1',
+        mockito                  : '2.13.0',
+        assertJ                  : '2.8.0',
+        daggerMock               : '0.8.1',
+        androidArch              : '1.0.0',
+]
+
+ext.android_core = [
+
+        /* DATA BINDING */
+        dataBinding           : "com.android.databinding:compiler:$versions.androidPlugin",
+
+        /* KOTLIN */
+        kotlinStdlib          : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin",
+]
+
+ext.support = [
+
+        /* CONSTRAINT LAYOUT */
+        constraintLayout: "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
+
+        /* APP COMPACT */
+        appCompact      : "com.android.support:appcompat-v7:$versions.supportLibs",
+
+        /* DESIGN */
+        design          : "com.android.support:design:$versions.supportLibs",
+
+        /* RECYCLER VIEW */
+        recyclerView    : "com.android.support:recyclerview-v7:$versions.supportLibs",
+]
+
+ext.testing = [
+
+        /* JUNIT */
+        junit        : "junit:junit:$versions.junit",
+
+        /* RUNNER */
+        runner       : "com.android.support.test:runner:$versions.runner",
+
+        /* ESPRESSO */
+        espresso     : "com.android.support.test.espresso:espresso-core:$versions.espresso",
+
+        /* MOCKITO */
+        mockitoCore  : "org.mockito:mockito-core:$versions.mockito",
+        mockitoInline: "org.mockito:mockito-inline:$versions.mockito",
+
+        /* ASSERT J */
+        assertJ      : "org.assertj:assertj-core:$versions.assertJ",
+
+        /* ARCH */
+        androidArch  : "android.arch.core:core-testing:$versions.androidArch"
+]
+
+

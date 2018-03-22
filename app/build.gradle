@@ -1,33 +1,94 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+// LOAD KEYSTORE FILE
+def keystorePropertiesFile
+if (rootProject.file('keystore.properties').exists()) {
+    keystorePropertiesFile = rootProject.file("keystore.properties")
+} else {
+    keystorePropertiesFile = rootProject.file("keystore_example.properties")
+}
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "eu.balzo.androidtemplate"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        applicationId app_config.packageName
+        minSdkVersion android_config.minSdk
+        targetSdkVersion android_config.targetSdk
+        versionCode app_config.versionCode
+        versionName app_config.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    /* ==== ANDROID CORE ==== */
+
+    //kotlinStdlib
+    implementation android_core.kotlinStdlib
+    //dataBinding
+    implementation android_core.dataBinding
+
+    /* ==== SUPPORT ==== */
+
+    //appCompact
+    implementation support.appCompact
+    //constraintLayout
+    implementation support.constraintLayout
+    //recyclerView
+    implementation support.recyclerView
+    //design
+    implementation support.design
+
+    /* ==== TEST ==== */
+
+    //junit
+    testImplementation testing.junit
+    // mockito
+    testImplementation testing.mockitoCore
+    testImplementation testing.mockitoInline
+    //assertJ
+    testImplementation testing.assertJ
+    //runner
+    androidTestImplementation testing.runner
+    //espresso
+    androidTestImplementation testing.espresso
+    //android arch
+    testImplementation(testing.androidArch, {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    })
 }
